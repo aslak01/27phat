@@ -305,7 +305,7 @@ void display(UBYTE * image) {
     SendCommand(DATA_START_TRANSMISSION_1);
     for (UWORD j = 0; j < Height; j++) {
         for (UWORD i = 0; i < Width; i++) {
-          SendData(0x00);
+          SendData(0xff);
         }
     }
 
