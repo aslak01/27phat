@@ -46,9 +46,9 @@ function displayImageBuffer(img) {
 			for(let  x = 0; x < width; x++) {
 				let color = img.height == height ? img.getPixel(x, y) : img.getPixel(img.width - y, x);
 				if (color < 64) { //white
-					bufBlack[ x + y * width ] = 0x00;
+					buf[ x + y * width ] = 0x00;
 				} else if (color < 192) { //black
-					bufBlack[ x + y * width ] = 0xff;
+					buf[ x + y * width ] = 0xff;
 				}
 			}
 		}
