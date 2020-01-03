@@ -42,9 +42,9 @@ function displayImageBuffer(img) {
 			for(let x = 0; x < width; x++) {
 				let color = img.height == height ? img.getPixel(x, y) : img.getPixel(img.width - y, x);
 
-				if (color < 128) { // black
+				if (color < 128) { // white
 					buf[ x + y * width ] = 0x00;
-				} else { // white
+				} else { // black
 					buf[ x + y * width ] = 0xff;
 				}
 			}
@@ -79,8 +79,8 @@ exports.sleep = () => new Promise(resolve => {
 })
 
 exports.colors = {
-    white: 255,
-    black: 0
+    white: 0,
+    black: 255
 }
 
 exports.width = width;
