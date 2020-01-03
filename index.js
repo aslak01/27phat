@@ -65,7 +65,7 @@ function displayImageBuffer(img) {
 			}
 		}
 
-		epd2in7b.displayFrame(bufBlack,() => {
+		epd2in7b.displayFrame(bufBlack, () => {
 			resolve();
 		});
 	})
@@ -75,8 +75,8 @@ exports.getImageBuffer = getImageBuffer;
 
 exports.displayImageBuffer = displayImageBuffer;
 
-exports.init = options => new Promise(resolve => {
-	epd2in7b.init(options, () => {
+exports.init = () => new Promise(resolve => {
+	epd2in7b.init(() => {
 		resolve();
 	});
 })
