@@ -9,54 +9,51 @@ const button4 = 19
 const rpi_gpio_buttons = require('rpi-gpio-buttons')
 
 const buttons = new Promise((resolve) => {
-	let handler = rpi_gpio_buttons(
-		[button1, button2, button3, button4],
-		{ mode: rpi_gpio_buttons.MODE_BCM });
-	resolve(handler);
+    let handler = rpi_gpio_buttons(
+        [button1, button2, button3, button4],
+        { mode: rpi_gpio_buttons.MODE_BCM });
+    resolve(handler);
 })
 
 const width = epd2in7b.width();
 const height = epd2in7b.height();
 
 function getImageBuffer(orientation) {
-	return new Promise(resolve => {
-		let img
-		if (orientation === undefined || orientation === 'portrait') {
-			img = gd.createSync(width, height);
-		} else {
-			img = gd.createSync(height, width);
-		}
+    return new Promise(resolve => {
+        let img
+        if (orientation === undefined || orientation === 'portrait') {
+            img = gd.createSync(width, height);
+        } else {
+            img = gd.createSync(height, width);
+        }
 
-		for (let i = 0; i < 64; i++)
-			img.colorAllocate(0, 0, 0);
-		for (let i = 64; i < 192; i++)
-			img.colorAllocate(0, 0, 255);
-		for (let i = 192; i < 256; i++)
-			img.colorAllocate(255, 0, 0);
+        for (let i=0; i<128; i++) img.colorAllocate(0, 0, 0);
+        for (let i=128; i<256; i++) img.colorAllocate(255, 255, 255);
 
-		return resolve(img);
-	})
+        return resolve(img);
+    })
 }
 
 function displayImageBuffer(img) {
-	return new Promise(resolve => {
-		let buf = new Buffer.alloc(width * height, 0);
+    return new Promise(resolve => {
+        let buf = new Buffer.alloc(width * height, 0);
 
 		for(let y = 0; y < height; y++) {
-			for(let  x = 0; x < width; x++) {
+			for(let x = 0; x < width; x++) {
 				let color = img.height == height ? img.getPixel(x, y) : img.getPixel(img.width - y, x);
-				if (color < 64) { //white
+
+				if (color < 128) { // black
 					buf[ x + y * width ] = 0x00;
-				} else if (color < 192) { //black
+				} else { // white
 					buf[ x + y * width ] = 0xff;
 				}
 			}
 		}
 
-		epd2in7b.displayFrame(buf, () => {
-			resolve();
-		});
-	})
+        epd2in7b.displayFrame(buf, () => {
+            resolve();
+        });
+    })
 }
 
 exports.getImageBuffer = getImageBuffer;
@@ -64,26 +61,26 @@ exports.getImageBuffer = getImageBuffer;
 exports.displayImageBuffer = displayImageBuffer;
 
 exports.init = () => new Promise(resolve => {
-	epd2in7b.init(() => {
-		resolve();
-	});
+    epd2in7b.init(() => {
+        resolve();
+    });
 })
 
 exports.clear = () => new Promise(resolve => {
-	epd2in7b.clear(() => {
-		resolve();
-	});
+    epd2in7b.clear(() => {
+        resolve();
+    });
 })
 
 exports.sleep = () => new Promise(resolve => {
-	epd2in7b.sleep(() => {
-		resolve();
-	});
+    epd2in7b.sleep(() => {
+        resolve();
+    });
 })
 
 exports.colors = {
-	white: 128,
-	black: 0
+    white: 255,
+    black: 0
 }
 
 exports.width = width;
@@ -93,9 +90,9 @@ exports.height = height;
 exports.gd = gd;
 
 exports.buttons = {
-	button1: button1,
-	button2: button2,
-	button3: button3,
-	button4: button4,
-	handler: buttons
+    button1: button1,
+    button2: button2,
+    button3: button3,
+    button4: button4,
+    handler: buttons
 }
