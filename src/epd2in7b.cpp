@@ -312,7 +312,7 @@ void display(UBYTE * image) {
     SendCommand(DATA_START_TRANSMISSION_2);
     for (UWORD j = 0; j < Height; j++) {
         for (UWORD i = 0; i < Width; i++) {
-          SendData(image[i + j * Width]);
+          SendData(blackImage[ 8 * (i + j * Width)]);
         }
     }
 
@@ -321,11 +321,9 @@ void display(UBYTE * image) {
 }
 
 void displayFrame(const FunctionCallbackInfo<Value>& args) {
-  UBYTE* imageData = NULL;
-
-	v8::Local<v8::Uint8Array> blackView = args[0].As<v8::Uint8Array>();
-	void *data = blackView->Buffer()->GetContents().Data();
-	imageData = static_cast<UBYTE*>(data);
+  v8::Local<v8::Uint8Array> view = args[0].As<v8::Uint8Array>();
+  void *data = view->Buffer()->GetContents().Data();
+  UBYTE* imageData = static_cast<UBYTE*>(data);
 
   Nan::AsyncQueueWorker(new Epd2In7AsyncWorker(
     bind(display, imageData),

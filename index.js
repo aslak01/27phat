@@ -40,32 +40,20 @@ function getImageBuffer(orientation) {
 
 function displayImageBuffer(img) {
 	return new Promise(resolve => {
-		let bufBlack = new Buffer.alloc(width * height, 0);
-		let bufRed = new Buffer.alloc(width * height, 0);
-		let hasBlack = false;
-		let hasRed = false;
+		let buf = new Buffer.alloc(width * height, 0);
 
 		for(let y = 0; y < height; y++) {
 			for(let  x = 0; x < width; x++) {
-				let color = img.height == height
-					? img.getPixel(x, y)
-					: img.getPixel(img.width - y, x);
+				let color = img.height == height ? img.getPixel(x, y) : img.getPixel(img.width - y, x);
 				if (color < 64) { //white
 					bufBlack[ x + y * width ] = 0x00;
-					bufRed[ x + y * width ] = 0x00;
 				} else if (color < 192) { //black
-					hasBlack = true;
 					bufBlack[ x + y * width ] = 0xff;
-					bufRed[ x + y * width ] = 0x00;
-				} else { // red
-					hasRed = true;
-					bufBlack[ x + y * width ] = 0x00;
-					bufRed[ x + y * width ] = 0xff;
 				}
 			}
 		}
 
-		epd2in7b.displayFrame(bufBlack, () => {
+		epd2in7b.displayFrame(buf, () => {
 			resolve();
 		});
 	})
@@ -95,8 +83,7 @@ exports.sleep = () => new Promise(resolve => {
 
 exports.colors = {
 	white: 0,
-	black: 128,
-	red: 255,
+	black: 128
 }
 
 exports.width = width;
