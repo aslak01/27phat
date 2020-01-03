@@ -302,14 +302,14 @@ void display(UBYTE * image) {
     Width = (EPD_WIDTH % 8 == 0)? (EPD_WIDTH / 8 ): (EPD_WIDTH / 8 + 1);
     Height = EPD_HEIGHT;
 
-    // SendCommand(DATA_START_TRANSMISSION_1);
-    // for (UWORD j = 0; j < Height; j++) {
-    //     for (UWORD i = 0; i < Width; i++) {
-    //       SendData(0xff);
-    //     }
-    // }
-
     SendCommand(DATA_START_TRANSMISSION_1);
+    for (UWORD j = 0; j < Height; j++) {
+        for (UWORD i = 0; i < Width; i++) {
+          SendData(0x00);
+        }
+    }
+
+    SendCommand(DATA_START_TRANSMISSION_2);
     for (UWORD j = 0; j < Height; j++) {
         for (UWORD i = 0; i < Width; i++) {
           UBYTE buffer = 0xff;
