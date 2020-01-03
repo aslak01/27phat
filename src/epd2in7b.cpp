@@ -345,18 +345,16 @@ void clear_sync(void) {
     SendCommand(DATA_START_TRANSMISSION_1);
     for (UWORD j = 0; j < Height; j++) {
         for (UWORD i = 0; i < Width; i++) {
-            SendData(0X00);
+            SendData(0XFF);
         }
     }
-    SendData(DATA_STOP);
 
     SendCommand(DATA_START_TRANSMISSION_2);
     for (UWORD j = 0; j < Height; j++) {
         for (UWORD i = 0; i < Width; i++) {
-            SendData(0X00);
+            SendData(0XFF);
         }
     }
-    SendData(DATA_STOP);
 
     SendCommand(DISPLAY_REFRESH);
     WaitUntilIdle();
