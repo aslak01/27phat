@@ -82,8 +82,8 @@ exports.sleep = () => new Promise(resolve => {
 })
 
 exports.colors = {
-	white: 0,
-	black: 128
+	white: 128,
+	black: 0
 }
 
 exports.width = width;
