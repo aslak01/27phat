@@ -173,7 +173,7 @@ void Reset(void) { //done
     EpdIf::DelayMs(200);
 }
 
-void SetLut(bool fastLut) {
+void SetLut() {
     unsigned int count;
 
     SendCommand(LUT_FOR_VCOM);                            //vcom
@@ -312,7 +312,7 @@ void display(UBYTE * image) {
     SendCommand(DATA_START_TRANSMISSION_2);
     for (UWORD j = 0; j < Height; j++) {
         for (UWORD i = 0; i < Width; i++) {
-          SendData(Image[i + j * Width]);
+          SendData(image[i + j * Width]);
         }
     }
 
