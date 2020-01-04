@@ -27,8 +27,8 @@ function getImageBuffer(orientation) {
             img = gd.createSync(height, width);
         }
 
-        for (let i=0; i<128; i++) img.colorAllocate(0, 0, 0);
-        for (let i=128; i<256; i++) img.colorAllocate(255, 255, 255);
+        for (let i = 0; i < 128; i++) img.colorAllocate(0, 0, 0);
+        for (let i = 128; i < 256; i++) img.colorAllocate(255, 255, 255);
 
         return resolve(img);
     })
@@ -43,9 +43,9 @@ function displayImageBuffer(img) {
 				let color = img.height == height ? img.getPixel(x, y) : img.getPixel(img.width - y, x);
 
 				if (color < 128) { // white
-					buf[ x + y * width ] = 0x00;
-				} else { // black
 					buf[ x + y * width ] = 0xff;
+				} else { // black
+					buf[ x + y * width ] = 0x00;
 				}
 			}
 		}
