@@ -22,36 +22,36 @@ using v8::Array;
 
 // Async worker
 class Epd2In7AsyncWorker : public Nan::AsyncWorker {
-  public:
-    function <void ()> method;
+    public:
+        function <void ()> method;
 
-    Epd2In7AsyncWorker(function <void ()> method, Nan::Callback *callback)
-      : Nan::AsyncWorker(callback) {
-      this->method = method;
-    }
+        Epd2In7AsyncWorker(function <void ()> method, Nan::Callback *callback)
+            : Nan::AsyncWorker(callback) {
+            this->method = method;
+        }
 
 
-    void Execute() {
-      this->method();
-    }
+        void Execute() {
+            this->method();
+        }
 
-    void HandleOKCallback() {
-      Nan::HandleScope scope;
-      v8::Local<v8::Value> argv[] = {
-        Nan::Null(), // no error occured
-        Nan::Null()
-      };
-      callback->Call(2, argv);
-    }
+        void HandleOKCallback() {
+            Nan::HandleScope scope;
+            v8::Local<v8::Value> argv[] = {
+                Nan::Null(), // no error occured
+                Nan::Null()
+            };
+            callback->Call(2, argv);
+        }
 
-    void HandleErrorCallback() {
-      Nan::HandleScope scope;
-      v8::Local<v8::Value> argv[] = {
-        Nan::New(this->ErrorMessage()).ToLocalChecked(), // return error message
-        Nan::Null()
-      };
-      callback->Call(2, argv);
-    }
+        void HandleErrorCallback() {
+            Nan::HandleScope scope;
+            v8::Local<v8::Value> argv[] = {
+                Nan::New(this->ErrorMessage()).ToLocalChecked(), // return error message
+                Nan::Null()
+            };
+            callback->Call(2, argv);
+        }
 };
 
 // Display resolution
@@ -95,6 +95,7 @@ class Epd2In7AsyncWorker : public Nan::AsyncWorker {
 #define PROGRAM_MODE                                0xA0
 #define ACTIVE_PROGRAM                              0xA1
 #define READ_OTP_DATA                               0xA2
+
 // original
 const unsigned char lut_vcom_dc[] = {
     0x00 ,0x00,
@@ -113,7 +114,7 @@ const unsigned char lut_ww[] = {
     0xA0 ,0x12 ,0x12 ,0x00 ,0x00 ,0x01,
     0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00,
     0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00,
-    0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00,
+    0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00
 };
 const unsigned char lut_bw[] = {
     0x40 ,0x08 ,0x00 ,0x00 ,0x00 ,0x02,
@@ -122,7 +123,7 @@ const unsigned char lut_bw[] = {
     0xA0 ,0x12 ,0x12 ,0x00 ,0x00 ,0x01,
     0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00,
     0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00,
-    0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00,
+    0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00
 };
 const unsigned char lut_bb[] = {
     0x80 ,0x08 ,0x00 ,0x00 ,0x00 ,0x02,
@@ -131,7 +132,7 @@ const unsigned char lut_bb[] = {
     0x50 ,0x12 ,0x12 ,0x00 ,0x00 ,0x01,
     0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00,
     0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00,
-    0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00,
+    0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00
 };
 const unsigned char lut_wb[] = {
     0x80 ,0x08 ,0x00 ,0x00 ,0x00 ,0x02,
@@ -160,7 +161,7 @@ void SendData(UBYTE data) {
 
 void WaitUntilIdle(void) {
     while(EpdIf::DigitalRead(BUSY_PIN) == 0) {      //0: busy, 1: idle
-        EpdIf::DelayMs(100);
+		EpdIf::DelayMs(100);
     }
 }
 
@@ -203,97 +204,97 @@ void SetLut() {
 }
 
 void width(const FunctionCallbackInfo<Value>& args) {
-  Isolate* isolate = args.GetIsolate();
-  Local<Number> num = Number::New(isolate, EPD_WIDTH);
-  args.GetReturnValue().Set(num);
+    Isolate* isolate = args.GetIsolate();
+    Local<Number> num = Number::New(isolate, EPD_WIDTH);
+    args.GetReturnValue().Set(num);
 }
 
 void height(const FunctionCallbackInfo<Value>& args) {
-  Isolate* isolate = args.GetIsolate();
-  Local<Number> num = Number::New(isolate, EPD_HEIGHT);
-  args.GetReturnValue().Set(num);
+    Isolate* isolate = args.GetIsolate();
+    Local<Number> num = Number::New(isolate, EPD_HEIGHT);
+    args.GetReturnValue().Set(num);
 }
 
 
 
 void init_sync(void) {
-  if (EpdIf::IfInit() != 0) {
-    // TODO : throw error
-  }	else {
+    if (EpdIf::IfInit() != 0) {
+        // TODO : throw error
+    } else {
 
-    Reset();
+        Reset();
 
-    SendCommand(POWER_SETTING);
-    SendData(0x03);                  // VDS_EN, VDG_EN
-    SendData(0x00);                  // VCOM_HV, VGHL_LV[1], VGHL_LV[0]
-    SendData(0x2b);                  // VDH
-    SendData(0x2b);                  // VDL
-    SendData(0x09);                  // VDHR
+        SendCommand(POWER_SETTING);
+        SendData(0x03);                  // VDS_EN, VDG_EN
+        SendData(0x00);                  // VCOM_HV, VGHL_LV[1], VGHL_LV[0]
+        SendData(0x2b);                  // VDH
+        SendData(0x2b);                  // VDL
+        SendData(0x09);                  // VDHR
 
-    SendCommand(BOOSTER_SOFT_START);
-    SendData(0x07);
-    SendData(0x07);
-    SendData(0x17);
+        SendCommand(BOOSTER_SOFT_START);
+        SendData(0x07);
+        SendData(0x07);
+        SendData(0x17);
 
-    // Power optimization
-    SendCommand(0xF8);
-    SendData(0x60);
-    SendData(0xA5);
+        // Power optimization
+        SendCommand(0xF8);
+        SendData(0x60);
+        SendData(0xA5);
 
-    // Power optimization
-    SendCommand(0xF8);
-    SendData(0x89);
-    SendData(0xA5);
+        // Power optimization
+        SendCommand(0xF8);
+        SendData(0x89);
+        SendData(0xA5);
 
-    // Power optimization
-    SendCommand(0xF8);
-    SendData(0x90);
-    SendData(0x00);
+        // Power optimization
+        SendCommand(0xF8);
+        SendData(0x90);
+        SendData(0x00);
 
-    // Power optimization
-    SendCommand(0xF8);
-    SendData(0x93);
-    SendData(0x2A);
+        // Power optimization
+        SendCommand(0xF8);
+        SendData(0x93);
+        SendData(0x2A);
 
-    // Power optimization
-    SendCommand(0xF8);
-    SendData(0xA0);
-    SendData(0xA5);
+        // Power optimization
+        SendCommand(0xF8);
+        SendData(0xA0);
+        SendData(0xA5);
 
-    // Power optimization
-    SendCommand(0xF8);
-    SendData(0xA1);
-    SendData(0x00);
+        // Power optimization
+        SendCommand(0xF8);
+        SendData(0xA1);
+        SendData(0x00);
 
-    // Power optimization
-    SendCommand(0xF8);
-    SendData(0x73);
-    SendData(0x41);
+        // Power optimization
+        SendCommand(0xF8);
+        SendData(0x73);
+        SendData(0x41);
 
-    SendCommand(PARTIAL_DISPLAY_REFRESH);
-    SendData(0x00);
+        SendCommand(PARTIAL_DISPLAY_REFRESH);
+        SendData(0x00);
 
-    SendCommand(POWER_ON);
-    WaitUntilIdle();
+        SendCommand(POWER_ON);
+        WaitUntilIdle();
 
-    SendCommand(PANEL_SETTING);
-    SendData(0xaf);        //KW-BF   KWR-AF    BWROTP 0f
+        SendCommand(PANEL_SETTING);
+        SendData(0xaf);        //KW-BF   KWR-AF    BWROTP 0f
 
-    SendCommand(PLL_CONTROL);
-    SendData(0x3a);       //3A 100HZ   29 150Hz 39 200HZ    31 171HZ
+        SendCommand(PLL_CONTROL);
+        SendData(0x3a);       //3A 100HZ   29 150Hz 39 200HZ    31 171HZ
 
-    SendCommand(VCM_DC_SETTING_REGISTER);
-    SendData(0x12);
+        SendCommand(VCM_DC_SETTING_REGISTER);
+        SendData(0x12);
 
-    SetLut();
-	}
+        SetLut();
+    }
 }
 
 void init(const FunctionCallbackInfo<Value>& args) {
-  Nan::AsyncQueueWorker(new Epd2In7AsyncWorker(
-    bind(init_sync),
-    new Nan::Callback(args[0].As<v8::Function>())
-  ));
+    Nan::AsyncQueueWorker(new Epd2In7AsyncWorker(
+        bind(init_sync),
+        new Nan::Callback(args[0].As<v8::Function>())
+    ));
 }
 
 
@@ -305,18 +306,18 @@ void display(UBYTE * image) {
     SendCommand(DATA_START_TRANSMISSION_1);
     for (UWORD j = 0; j < Height; j++) {
         for (UWORD i = 0; i < Width; i++) {
-          SendData(0xff);
+            SendData(0xff);
         }
     }
 
     SendCommand(DATA_START_TRANSMISSION_2);
     for (UWORD j = 0; j < Height; j++) {
         for (UWORD i = 0; i < Width; i++) {
-          UBYTE buffer = 0xff;
-          for (UWORD k = 0; k < 8; k++) {
-            buffer = (buffer << 1) | (image[ 8 * (i + j * Width) + k ] & 0x01);
-          }
-          SendData(buffer);
+            UBYTE buffer = 0xff;
+            for (UWORD k = 0; k < 8; k++) {
+                buffer = (buffer << 1) | (image[ 8 * (i + j * Width) + k ] & 0x01);
+            }
+            SendData(buffer);
         }
     }
 
@@ -325,14 +326,14 @@ void display(UBYTE * image) {
 }
 
 void displayFrame(const FunctionCallbackInfo<Value>& args) {
-  v8::Local<v8::Uint8Array> view = args[0].As<v8::Uint8Array>();
-  void *data = view->Buffer()->GetContents().Data();
-  UBYTE* imageData = static_cast<UBYTE*>(data);
+    v8::Local<v8::Uint8Array> view = args[0].As<v8::Uint8Array>();
+    void *data = view->Buffer()->GetContents().Data();
+    UBYTE* imageData = static_cast<UBYTE*>(data);
 
-  Nan::AsyncQueueWorker(new Epd2In7AsyncWorker(
-    bind(display, imageData),
-    new Nan::Callback(args[1].As<v8::Function>())
-  ));
+    Nan::AsyncQueueWorker(new Epd2In7AsyncWorker(
+        bind(display, imageData),
+        new Nan::Callback(args[1].As<v8::Function>())
+    ));
 }
 
 
@@ -361,34 +362,34 @@ void clear_sync(void) {
 }
 
 void clear(const FunctionCallbackInfo<Value>& args) {
-  Nan::AsyncQueueWorker(new Epd2In7AsyncWorker(
-    bind(clear_sync),
-    new Nan::Callback(args[0].As<v8::Function>())
-  ));
+    Nan::AsyncQueueWorker(new Epd2In7AsyncWorker(
+        bind(clear_sync),
+        new Nan::Callback(args[0].As<v8::Function>())
+    ));
 }
 
 void sleep_sync(void) {
-  SendCommand(0X50);
-  SendData(0xf7);
-  SendCommand(0X02);  	//power off
-  SendCommand(0X07);  	//deep sleep
-  SendData(0xA5);
+    SendCommand(0X50);
+    SendData(0xf7);
+    SendCommand(0X02);      //power off
+    SendCommand(0X07);      //deep sleep
+    SendData(0xA5);
 }
 
 void sleep(const FunctionCallbackInfo<Value>& args) {
-  Nan::AsyncQueueWorker(new Epd2In7AsyncWorker(
-    bind(sleep_sync),
-    new Nan::Callback(args[0].As<v8::Function>())
-  ));
+    Nan::AsyncQueueWorker(new Epd2In7AsyncWorker(
+        bind(sleep_sync),
+        new Nan::Callback(args[0].As<v8::Function>())
+    ));
 }
 
 void InitAll(Local<Object> exports) {
-  NODE_SET_METHOD(exports, "init", init);
-  NODE_SET_METHOD(exports, "clear", clear);
-  NODE_SET_METHOD(exports, "sleep", sleep);
-  NODE_SET_METHOD(exports, "width", width);
-  NODE_SET_METHOD(exports, "height", height);
-  NODE_SET_METHOD(exports, "displayFrame", displayFrame);
+    NODE_SET_METHOD(exports, "init", init);
+    NODE_SET_METHOD(exports, "clear", clear);
+    NODE_SET_METHOD(exports, "sleep", sleep);
+    NODE_SET_METHOD(exports, "width", width);
+    NODE_SET_METHOD(exports, "height", height);
+    NODE_SET_METHOD(exports, "displayFrame", displayFrame);
 }
 
-NODE_MODULE(epd2in7b, InitAll)
+NODE_MODULE(epd2in7, InitAll)

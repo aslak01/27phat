@@ -1,30 +1,6 @@
 {
-  "_from": "epd2in7b",
-  "_id": "epd2in7b@0.1.0",
-  "_inBundle": false,
-  "_integrity": "sha512-411+dvhPIn4sGAqk8OVJ/yyGctXGTBW4Ld6tG5k7lVmfzOF9qHAaCpY+owk6ZTNPUhbsCAr4aDXoPMRE0fXTGA==",
-  "_location": "/epd2in7b",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "tag",
-    "registry": true,
-    "raw": "epd2in7b",
-    "name": "epd2in7b",
-    "escapedName": "epd2in7b",
-    "rawSpec": "",
-    "saveSpec": null,
-    "fetchSpec": "latest"
-  },
-  "_requiredBy": [
-    "#USER",
-    "/"
-  ],
-  "_resolved": "https://registry.npmjs.org/epd2in7b/-/epd2in7b-0.1.0.tgz",
-  "_shasum": "758d46d27bb7473ce690dc30ec2b5b041bc3b9c0",
-  "_spec": "epd2in7b",
-  "_where": "/home/pi/Projects/weatherDisplay",
   "author": {
-    "name": "Marc-Olivier Laux"
+    "name": "Pierre-Olivier Potier"
   },
   "bundleDependencies": false,
   "dependencies": {
@@ -33,7 +9,7 @@
     "rpi-gpio-buttons": "^1.1.0"
   },
   "deprecated": false,
-  "description": "node module for the 2.7 inch waveshare epaper display",
+  "description": "node module for the 2.7 inch waveshare black & white epaper display",
   "gypfile": true,
   "keywords": [
     "epaper",
@@ -42,7 +18,7 @@
   ],
   "license": "ISC",
   "main": "index.js",
-  "name": "epd2in7b",
+  "name": "epd2in7",
   "scripts": {
     "install": "node-gyp rebuild",
     "test": "echo \"Error: no test specified\" && exit 1"
