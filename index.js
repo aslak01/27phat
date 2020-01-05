@@ -56,14 +56,14 @@ function displayImageBuffer(img) {
     })
 }
 
-function displayPartialImageBuffer(img, x, y, w, h) {
+function displayPartialImageBuffer(img, ox, oy, width, height) {
     return new Promise(resolve => {
         let buf = new Buffer.alloc(width * height, 0);
 
-        for (let y = 0; y < height; y++) {
-            for (let x = 0; x < width; x++) {
+        for(let y = 0; y < height; y++) {
+            for(let x = 0; x < width; x++) {
                 let color = img.height == height ? img.getPixel(x, y) : img.getPixel(img.width - y, x);
-                
+
                 if (color < 128) { // white
                     buf[x + y * width] = 0xff;
                 } else { // black
@@ -72,7 +72,7 @@ function displayPartialImageBuffer(img, x, y, w, h) {
             }
         }
 
-        epd4in2.displayPartialFrame(buf, x, y, w, h, () => {
+        epd2in7.displayPartialFrame(buf, ox, oy, width, height, () => {
             resolve();
         });
     })
