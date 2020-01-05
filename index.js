@@ -1,4 +1,5 @@
 const epd2in7 = require('./build/Release/epd2in7');
+const rpi_gpio_buttons = require('rpi-gpio-buttons');
 const gd = require('node-gd');
 
 const button1 = 5
@@ -6,7 +7,6 @@ const button2 = 6
 const button3 = 13
 const button4 = 19
 
-const rpi_gpio_buttons = require('rpi-gpio-buttons')
 
 const buttons = new Promise((resolve) => {
     let handler = rpi_gpio_buttons(
@@ -43,9 +43,9 @@ function displayImageBuffer(img) {
 				let color = img.height == height ? img.getPixel(x, y) : img.getPixel(img.width - y, x);
 
 				if (color < 128) { // white
-					buf[ x + y * width ] = 0xff;
+					buf[x + y * width] = 0xff;
 				} else { // black
-					buf[ x + y * width ] = 0x00;
+					buf[x + y * width] = 0x00;
 				}
 			}
 		}
@@ -56,9 +56,31 @@ function displayImageBuffer(img) {
     })
 }
 
-exports.getImageBuffer = getImageBuffer;
+function displayPartialImageBuffer(img, x, y, w, h) {
+    return new Promise(resolve => {
+        let buf = new Buffer.alloc(width * height, 0);
 
+        for (let y = 0; y < height; y++) {
+            for (let x = 0; x < width; x++) {
+                let color = img.height == height ? img.getPixel(x, y) : img.getPixel(img.width - y, x);
+                
+                if (color < 128) { // white
+                    buf[x + y * width] = 0xff;
+                } else { // black
+                    buf[x + y * width] = 0x00;
+                }
+            }
+        }
+
+        epd4in2.displayPartialFrame(buf, x, y, w, h, () => {
+            resolve();
+        });
+    })
+}
+
+exports.getImageBuffer = getImageBuffer;
 exports.displayImageBuffer = displayImageBuffer;
+exports.displayPartialImageBuffer = displayPartialImageBuffer;
 
 exports.init = () => new Promise(resolve => {
     epd2in7.init(() => {
