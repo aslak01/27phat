@@ -1,4 +1,4 @@
-const epd2in7 = require("./build/Release/epd2in7");
+const epd2in7 = require("./index.js");
 const font = "./fonts/MesloLGS-NF-Regular.ttf";
 const fontSize = 12;
 
