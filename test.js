@@ -1,6 +1,6 @@
 const epd = require("./index.js");
 const font = "./fonts/amiga4ever.ttf";
-const fontSize = 12;
+const fontSize = 8;
 
 const img = epd.getImageBuffer("landscape");
 const width = epd.height;
