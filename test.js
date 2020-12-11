@@ -1,6 +1,6 @@
 const epd = require("./index.js");
 const font = "./fonts/VCR_OSD_MONO_1.001.ttf";
-const fontSize = 8;
+const fontSize = 10;
 
 const img = epd.getImageBuffer("landscape");
 const width = epd.height;
