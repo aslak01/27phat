@@ -1,16 +1,16 @@
-const epd2in7 = require("./index.js");
-const font = "./fonts/MesloLGS-NF-Regular.ttf";
+const epd = require("./index.js");
+const font = "./fonts/IBMPlexMono-Regular.ttf";
 const fontSize = 12;
 
-const img = epd2in7.getImageBuffer("landscape");
-const width = epd2in7.height;
-const height = epd2in7.width;
-let epdp = epd2in7.init({ fastLut: false });
+const img = epd.getImageBuffer("landscape");
+const width = epd.height;
+const height = epd.width;
+let epdp = epd.init({ fastLut: false });
 
 const refreshDisplay = (message) =>
   (epdp = epdp
     // init is required since we set it sleeping at the end of this chain
-    .then(() => epd2in7.init({ fastLut: false }))
+    .then(() => epd.init({ fastLut: false }))
     .then(() =>
       img.then((img) => {
         // display a black rectangle
@@ -19,12 +19,12 @@ const refreshDisplay = (message) =>
           Math.round(height / 8),
           Math.round((7 * width) / 8),
           Math.round((7 * height) / 8),
-          epd2in7.colors.black
+          epd.colors.black
         );
 
         // Retrieve bounding box of displayed string
         let [xll, yll, xlr, ylr, xur, yur, xul, yul] = img.stringFTBBox(
-          epd2in7.colors.white,
+          epd.colors.white,
           font,
           fontSize,
           0,
@@ -35,7 +35,7 @@ const refreshDisplay = (message) =>
 
         // Center the message
         img.stringFT(
-          epd2in7.colors.white,
+          epd.colors.white,
           font,
           fontSize,
           0,
@@ -44,28 +44,28 @@ const refreshDisplay = (message) =>
           message
         );
 
-        return epd2in7.displayImageBuffer(img);
+        return epd.displayImageBuffer(img);
       })
     )
-    .then(() => epd2in7.sleep()));
+    .then(() => epd.sleep()));
 
 refreshDisplay("Hello world !");
 
 // Handle buttons
-epd2in7.buttons.handler.then((handler) =>
+epd.buttons.handler.then((handler) =>
   handler.on("pressed", function (button) {
     let buttonLabel = "none";
     switch (button) {
-      case epd2in7.buttons.button1:
+      case epd.buttons.button1:
         buttonLabel = "first button";
         break;
-      case epd2in7.buttons.button2:
+      case epd.buttons.button2:
         buttonLabel = "second button";
         break;
-      case epd2in7.buttons.button3:
+      case epd.buttons.button3:
         buttonLabel = "third button";
         break;
-      case epd2in7.buttons.button4:
+      case epd.buttons.button4:
         buttonLabel = "fourth button";
         break;
       default:
