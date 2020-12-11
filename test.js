@@ -1,5 +1,5 @@
 const epd = require("./index.js");
-const font = "./fonts/Minecraft.ttf";
+const font = "./fonts/VCR_OSD_MONO_1.001.ttf";
 const fontSize = 8;
 
 const img = epd.getImageBuffer("landscape");
