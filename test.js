@@ -1,5 +1,5 @@
 const epd = require("./index.js");
-const font = "./fonts/amiga4ever.ttf";
+const font = "./fonts/Minecraft.ttf";
 const fontSize = 8;
 
 const img = epd.getImageBuffer("landscape");
@@ -49,7 +49,7 @@ const refreshDisplay = (message) =>
     )
     .then(() => epd.sleep()));
 
-refreshDisplay("Hello world !");
+refreshDisplay("Hello world x!");
 
 // Handle buttons
 epd.buttons.handler.then((handler) =>
@@ -57,10 +57,10 @@ epd.buttons.handler.then((handler) =>
     let buttonLabel = "none";
     switch (button) {
       case epd.buttons.button1:
-        buttonLabel = "first button";
+        buttonLabel = "knapp 1";
         break;
       case epd.buttons.button2:
-        buttonLabel = "second button";
+        buttonLabel = "knapp 2";
         break;
       case epd.buttons.button3:
         buttonLabel = "third button";
@@ -71,7 +71,7 @@ epd.buttons.handler.then((handler) =>
       default:
         buttonLabel = "an unknown button";
     }
-    refreshDisplay(`You pressed \n${buttonLabel}`);
+    refreshDisplay(`Du trykte på \n${buttonLabel}`);
   })
 );
 
