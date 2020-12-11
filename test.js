@@ -1,5 +1,5 @@
 const epd = require("./index.js");
-const font = "./fonts/IBMPlexMono-Regular.ttf";
+const font = "./fonts/amiga4ever.ttf";
 const fontSize = 12;
 
 const img = epd.getImageBuffer("landscape");
