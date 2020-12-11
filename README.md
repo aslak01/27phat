@@ -1,3 +1,5 @@
+https://github.com/pierrolivier/epd2in7
+
 # epd2in7b
 
 A Node.js package for the 2.7inch e-Paper HAT waveshare display on a Raspberry Pi 2/3/zero.
