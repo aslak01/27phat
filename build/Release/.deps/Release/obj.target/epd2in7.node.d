@@ -1,0 +1,1 @@
+cmd_Release/obj.target/epd2in7.node := g++ -shared -pthread -rdynamic  -Wl,-soname=epd2in7.node -o Release/obj.target/epd2in7.node -Wl,--start-group Release/obj.target/epd2in7/src/epd2in7.o Release/obj.target/epd2in7/src/epdif.o -Wl,--end-group -L/usr/local/lib -lwiringPi
