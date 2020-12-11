@@ -2,6 +2,9 @@ const epd2in7 = require("./build/Release/epd2in7");
 const rpi_gpio_buttons = require("rpi-gpio-buttons");
 const gd = require("node-gd");
 
+const font = "./fonts/MesloLGS-NF-Regular.ttf";
+const fontSize = 12;
+
 const button1 = 5;
 const button2 = 6;
 const button3 = 13;
