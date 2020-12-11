@@ -1,5 +1,5 @@
 const epd = require("./index.js");
-const font = "./fonts/VCR_OSD_MONO_1.001.ttf";
+const font = "./fonts/D-DINCondensed.otf";
 const fontSize = 10;
 
 const img = epd.getImageBuffer("landscape");
