@@ -1,5 +1,5 @@
 const epd = require("./index.js");
-const font = "./fonts/D-DINCondensed.otf";
+const font = "./fonts/VCR_OSD_MONO_1.001.ttf";
 const fontSize = 10;
 
 const img = epd.getImageBuffer("landscape");
@@ -49,7 +49,7 @@ const refreshDisplay = (message) =>
     )
     .then(() => epd.sleep()));
 
-refreshDisplay("Hello world x!");
+refreshDisplay("Halla Ole!");
 
 // Handle buttons
 epd.buttons.handler.then((handler) =>
