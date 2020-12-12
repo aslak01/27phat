@@ -35,7 +35,7 @@ const refreshDisplay = (message) =>
 
         // Center the message
         img.stringFT(
-          epd.colors.white,
+          epd.colors.black,
           font,
           fontSize,
           0,
